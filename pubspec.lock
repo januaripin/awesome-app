@@ -46,10 +46,12 @@ packages:
   core:
     dependency: "direct main"
     description:
-      path: core
-      relative: true
-    source: path
-    version: "0.0.1"
+      path: "."
+      ref: master
+      resolved-ref: d15dabf63fc126dc64c635edc41a536f5e31f227
+      url: "https://github.com/januaripin/awesome-app-core.git"
+    source: git
+    version: "0.0.2"
   crypto:
     dependency: transitive
     description:
@@ -103,7 +105,7 @@ packages:
     source: sdk
     version: "0.0.0"
   google_fonts:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: google_fonts
       url: "https://pub.dartlang.org"
