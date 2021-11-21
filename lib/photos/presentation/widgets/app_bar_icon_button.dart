@@ -4,30 +4,31 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AppBarIconButton extends StatelessWidget {
-  AppBarIconButton({Key? key, required this.iconType}) : super(key: key);
+  const AppBarIconButton({
+    Key? key,
+    required this.icon,
+    required this.active,
+    required this.onPressed,
+  }) : super(key: key);
 
-  final IconType iconType;
-  final _controller = Get.find<IconController>();
+  final IconData icon;
+  final bool active;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => IconButton(
-          icon: AnimatedSize(
-            duration: const Duration(milliseconds: 300),
-            child: Icon(
-              iconType == IconType.grid ? Icons.grid_view : Icons.list,
-              color: _controller.equals(iconType)
-                  ? AppColors.orange
-                  : AppColors.grey,
-              size: _controller.equals(iconType) ? 32 : 16,
-            ),
-          ),
-          onPressed: () => _controller.changeType(iconType),
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints.expand(
-            width: 42,
-            height: 42,
-          ),
-        ));
+    return IconButton(
+      icon: Icon(
+        icon,
+        color: active ? AppColors.orange : AppColors.grey,
+        size: active ? 32 : 16,
+      ),
+      onPressed: onPressed,
+      padding: EdgeInsets.zero,
+      constraints: const BoxConstraints.expand(
+        width: 42,
+        height: 42,
+      ),
+    );
   }
 }

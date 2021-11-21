@@ -12,7 +12,11 @@ void main() {
   testWidgets('icon button grid view', (tester) async {
     await tester.pumpWidget(createWidgetForTesting(
       child: Scaffold(
-        body: AppBarIconButton(iconType: IconType.grid),
+        body: AppBarIconButton(
+          icon: Icons.grid_view,
+          active: true,
+          onPressed: () {},
+        ),
       ),
     ));
 
@@ -21,12 +25,17 @@ void main() {
 
     expect(gridFinder, findsOneWidget);
     expect(listFinder, findsNothing);
+    expect(tester.getSize(gridFinder), equals(const Size(32, 32)));
   });
 
   testWidgets('icon button list view', (tester) async {
     await tester.pumpWidget(createWidgetForTesting(
       child: Scaffold(
-        body: AppBarIconButton(iconType: IconType.list),
+        body: AppBarIconButton(
+          icon: Icons.list,
+          active: true,
+          onPressed: () {},
+        ),
       ),
     ));
 
@@ -35,5 +44,6 @@ void main() {
 
     expect(gridFinder, findsNothing);
     expect(listFinder, findsOneWidget);
+    expect(tester.getSize(listFinder), equals(const Size(32, 32)));
   });
 }
