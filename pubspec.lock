@@ -36,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.1"
+  awesome_app_details:
+    dependency: "direct main"
+    description:
+      path: "../awesome_app_details"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   boolean_selector:
     dependency: transitive
     description:
