@@ -3,6 +3,12 @@ import 'package:get/get.dart';
 class IconController extends GetxController {
   final iconType = IconType.grid.obs;
 
+  @override
+  void onInit() {
+    iconType.value = IconType.grid;
+    super.onInit();
+  }
+
   void changeType(IconType type) {
     iconType.value = type;
   }

@@ -1,16 +1,23 @@
+import 'package:awesome_app/main.dart';
+import 'package:awesome_app/photos/domain/entities/photo.dart';
+import 'package:awesome_app/photos/domain/entities/photo_src.dart';
+import 'package:awesome_app/photos/presentation/controllers/photos_controller.dart';
 import 'package:awesome_app/photos/presentation/pages/photos_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
 import '../../../widget_test.dart';
 
 void main() {
+  setUp(() => di());
+
   testWidgets('toggle layout photos change icon size', (tester) async {
     await mockNetworkImagesFor(
       () => tester.pumpWidget(
         createWidgetForTesting(child: PhotosPage()),
-        const Duration(seconds: 1),
+        const Duration(seconds: 10),
       ),
     );
 
@@ -28,10 +35,28 @@ void main() {
   });
 
   testWidgets('scroll test', (tester) async {
+    final photos = <Photo>[];
+
+    for (var i = 1; i <= 15; i++) {
+      photos.add(
+        Photo(
+          id: i,
+          width: 720,
+          height: 600,
+          photographerId: i,
+          photographer: 'Photographer $i',
+          src: const PhotoSrc(),
+        ),
+      );
+    }
+
+    final controller = Get.put(PhotosController());
+    controller.photos.addAll(photos);
+
     await mockNetworkImagesFor(
       () => tester.pumpWidget(
         createWidgetForTesting(child: PhotosPage()),
-        const Duration(seconds: 1),
+        const Duration(seconds: 10),
       ),
     );
 
