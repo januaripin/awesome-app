@@ -37,4 +37,15 @@ void main() {
 
     expect(result, PhotoModel.jsonToList(jsonDecode(fixture('curated.json'))));
   });
+
+  test(
+    'should throw a Exception',
+    () async {
+      when(mockClient.get(any, headers: anyNamed('headers'))).thenAnswer(
+        (_) async => http.Response('Something went wrong', 400),
+      );
+
+      expect(remoteDataSource.fetchPhotos(1), throwsException);
+    },
+  );
 }

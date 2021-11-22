@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:awesome_app/photos/data/models/photo_model.dart';
+import 'package:core/exceptions.dart';
 import 'package:http/http.dart' as http;
 
 abstract class PhotosRemoteDataSource {
@@ -24,7 +25,7 @@ class PhotosRemoteDataSourceImpl extends PhotosRemoteDataSource {
     if (response.statusCode == 200) {
       return PhotoModel.jsonToList(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to fetch photos');
+      throw ServerException(code: response.statusCode, message: response.body);
     }
   }
 }
