@@ -41,7 +41,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "5fd51305b08a5c234007a63557b8a5bb1202a485"
+      resolved-ref: f982a8235fec8ff32e5321c2befeee5b4e9d9902
       url: "https://github.com/januaripin/awesome-app-details.git"
     source: git
     version: "1.0.0+1"
