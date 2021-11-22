@@ -36,7 +36,7 @@ dependencies:
   awesome_app_details:
     git:
       url: https://github.com/januaripin/awesome-app-details.git
-      ref: dev
+      ref: master
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -1,16 +1,19 @@
 # awesome_app
 
-an awesome app with Pexels API
+An awesome modular app
 
-## Getting Started
+## Module 
+- [App/Photos](https://github.com/januaripin/awesome-app)
+- [Details](https://github.com/januaripin/awesome-app-details)
+- [Core](https://github.com/januaripin/awesome-app-core)
 
-This project is a starting point for a Flutter application.
+## App/Photos Module
+This module is a main module that contains list photos feature. Built with [GetX](https://pub.dev/packages/get) as DI and state management.
 
-A few resources to get you started if this is your first Flutter project:
+## Details Module
+This module is a module for details photo feature. Built with [Bloc Cubit](https://bloclibrary.dev/) as state management.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Core Module
+This module contains theme configuration, color constants, helper widgets and basic use cases.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+

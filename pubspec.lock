@@ -40,8 +40,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: dev
-      resolved-ref: "57adac9cdaf29a4d877c460476b50e51dd3e4960"
+      ref: master
+      resolved-ref: "5fd51305b08a5c234007a63557b8a5bb1202a485"
       url: "https://github.com/januaripin/awesome-app-details.git"
     source: git
     version: "1.0.0+1"
