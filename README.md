@@ -16,4 +16,7 @@ This module is a module for details photo feature. Built with [Bloc Cubit](https
 ## Core Module
 This module contains theme configuration, color constants, helper widgets and basic use cases.
 
-
+## Testing
+```bash
+flutter test --no-sound-null-safety
+```

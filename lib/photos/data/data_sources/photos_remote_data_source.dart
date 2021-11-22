@@ -8,13 +8,13 @@ abstract class PhotosRemoteDataSource {
 }
 
 class PhotosRemoteDataSourceImpl extends PhotosRemoteDataSource {
-  PhotosRemoteDataSourceImpl(http.Client client) : _client = client;
+  PhotosRemoteDataSourceImpl(this.client);
 
-  final http.Client _client;
+  final http.Client client;
 
   @override
   Future<List<PhotoModel>> fetchPhotos(int page) async {
-    final response = await await _client.get(
+    final response = await client.get(
         Uri.parse('https://api.pexels.com/v1/curated?page=$page'),
         headers: {
           'Authorization':
