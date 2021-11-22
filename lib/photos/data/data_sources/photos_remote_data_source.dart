@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:awesome_app/photos/data/models/photo_model.dart';
+import 'package:core/exceptions.dart';
 import 'package:http/http.dart' as http;
 
 abstract class PhotosRemoteDataSource {
@@ -8,13 +9,13 @@ abstract class PhotosRemoteDataSource {
 }
 
 class PhotosRemoteDataSourceImpl extends PhotosRemoteDataSource {
-  PhotosRemoteDataSourceImpl(http.Client client) : _client = client;
+  PhotosRemoteDataSourceImpl(this.client);
 
-  final http.Client _client;
+  final http.Client client;
 
   @override
   Future<List<PhotoModel>> fetchPhotos(int page) async {
-    final response = await await _client.get(
+    final response = await client.get(
         Uri.parse('https://api.pexels.com/v1/curated?page=$page'),
         headers: {
           'Authorization':
@@ -24,7 +25,7 @@ class PhotosRemoteDataSourceImpl extends PhotosRemoteDataSource {
     if (response.statusCode == 200) {
       return PhotoModel.jsonToList(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to fetch photos');
+      throw ServerException(code: response.statusCode, message: response.body);
     }
   }
 }
