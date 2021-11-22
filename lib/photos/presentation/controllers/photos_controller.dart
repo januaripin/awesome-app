@@ -1,5 +1,6 @@
 import 'package:awesome_app/photos/domain/entities/photo.dart';
 import 'package:awesome_app/photos/domain/use_cases/fetch_photos.dart';
+import 'package:core/exceptions.dart';
 import 'package:get/get.dart';
 
 class PhotosController extends GetxController with ScrollMixin {
@@ -26,12 +27,12 @@ class PhotosController extends GetxController with ScrollMixin {
   }
 
   Future<void> nextPage() async {
-      _page++;
-      await _fetchPhotos();
+    _page++;
+    await _fetchPhotos();
   }
 
   Future<void> retry() async {
-      await _fetchPhotos();
+    await _fetchPhotos();
   }
 
   Future<void> _fetchPhotos() async {
@@ -46,8 +47,10 @@ class PhotosController extends GetxController with ScrollMixin {
         photos.addAll(value);
       }
     }).catchError((e) {
-      if (e is String) {
-        errorMessage.value = e;
+      if (e is ServerException) {
+        errorMessage.value = e.message;
+      } else if (e is NoConnectionException) {
+        errorMessage.value = e.message;
       } else {
         errorMessage.value = e.toString();
       }

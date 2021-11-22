@@ -38,9 +38,7 @@ void main() {
         ));
       }
 
-      when(mockDataSource.fetchPhotos(1)).thenAnswer(
-        (_) async => photos,
-      );
+      when(mockDataSource.fetchPhotos(1)).thenAnswer((_) async => photos);
 
       final repository = PhotosRepositoryImpl(mockDataSource, mockInternet);
 
@@ -50,4 +48,26 @@ void main() {
       expect(result.last.id, equals(photos.last.id));
     });
   }, isOnline: true);
+
+  runTestOnline(() {
+    test('fetch photos when offline, should throw exception', () async {
+      final photos = <PhotoModel>[];
+      for (var i = 1; i <= 15; i++) {
+        photos.add(PhotoModel(
+          id: i,
+          width: 720,
+          height: 600,
+          photographerId: i,
+          photographer: 'Photographer $i',
+          src: const PhotoSrcModel(),
+        ));
+      }
+
+      when(mockDataSource.fetchPhotos(1)).thenAnswer((_) async => photos);
+
+      final repository = PhotosRepositoryImpl(mockDataSource, mockInternet);
+
+      expect(repository.fetchPhotos(1), throwsException);
+    });
+  }, isOnline: false);
 }

@@ -239,7 +239,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: d15dabf63fc126dc64c635edc41a536f5e31f227
+      resolved-ref: f17726787b1a21c310b4ca4e8037388d0a0f2f4c
       url: "https://github.com/januaripin/awesome-app-core.git"
     source: git
     version: "0.0.2"
