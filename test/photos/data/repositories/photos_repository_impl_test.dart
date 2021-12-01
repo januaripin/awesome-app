@@ -1,7 +1,9 @@
 import 'package:awesome_app/photos/data/data_sources/photos_remote_data_source.dart';
 import 'package:awesome_app/photos/data/models/photo_model.dart';
-import 'package:awesome_app/photos/data/models/photo_src_model.dart';
 import 'package:awesome_app/photos/data/repositories/photos_repository_impl.dart';
+import 'package:awesome_app/photos/domain/entities/photo.dart';
+import 'package:core/core.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mockito/annotations.dart';
@@ -11,11 +13,18 @@ import 'photos_repository_impl_test.mocks.dart';
 
 @GenerateMocks([PhotosRemoteDataSource, InternetConnectionChecker])
 void main() {
-  final mockDataSource = MockPhotosRemoteDataSource();
-  final mockInternet = MockInternetConnectionChecker();
+  late MockPhotosRemoteDataSource mockDataSource;
+  late MockInternetConnectionChecker mockInternet;
+  late PhotosRepositoryImpl repository;
+
+  setUp(() {
+    mockDataSource = MockPhotosRemoteDataSource();
+    mockInternet = MockInternetConnectionChecker();
+    repository = PhotosRepositoryImpl(mockDataSource, mockInternet);
+  });
 
   void runTestOnline(Function body, {bool isOnline = false}) {
-    group('device is ${isOnline ? 'online' : 'offline'}', () {
+    group('device is ${isOnline ? 'online' : 'offline'}, ', () {
       setUp(() {
         when(mockInternet.hasConnection).thenAnswer((_) async => isOnline);
       });
@@ -25,49 +34,54 @@ void main() {
   }
 
   runTestOnline(() {
-    test('fetch photos when online', () async {
-      final photos = <PhotoModel>[];
-      for (var i = 1; i <= 15; i++) {
-        photos.add(PhotoModel(
-          id: i,
-          width: 720,
-          height: 600,
-          photographerId: i,
-          photographer: 'Photographer $i',
-          src: const PhotoSrcModel(),
-        ));
-      }
+    test('should return List Photo when fetching photos', () async {
+      // arrange
+      when(mockDataSource.fetchPhotos(any))
+          .thenAnswer((_) async => <PhotoModel>[]);
 
-      when(mockDataSource.fetchPhotos(1)).thenAnswer((_) async => photos);
-
-      final repository = PhotosRepositoryImpl(mockDataSource, mockInternet);
-
+      // act
       final result = await repository.fetchPhotos(1);
 
-      expect(result.first.id, equals(photos.first.id));
-      expect(result.last.id, equals(photos.last.id));
+      // assert
+      verify(mockDataSource.fetchPhotos(any));
+      expect(result, isA<Right<Failure, List<Photo>>>());
     });
   }, isOnline: true);
 
   runTestOnline(() {
-    test('fetch photos when offline, should throw exception', () async {
-      final photos = <PhotoModel>[];
-      for (var i = 1; i <= 15; i++) {
-        photos.add(PhotoModel(
-          id: i,
-          width: 720,
-          height: 600,
-          photographerId: i,
-          photographer: 'Photographer $i',
-          src: const PhotoSrcModel(),
-        ));
-      }
+    test('should return ServerFailure when fetching photos', () async {
+      // arrange
+      when(mockDataSource.fetchPhotos(any)).thenAnswer(
+        (_) async => throw ServerException(
+          code: 400,
+          message: 'Something went wrong',
+        ),
+      );
 
-      when(mockDataSource.fetchPhotos(1)).thenAnswer((_) async => photos);
+      // act
+      final result = await repository.fetchPhotos(1);
 
-      final repository = PhotosRepositoryImpl(mockDataSource, mockInternet);
+      // assert
+      verify(mockDataSource.fetchPhotos(any));
+      expect(result, isA<Left<Failure, List<Photo>>>());
+      expect(result, Left(ServerFailure(code: 400, message: 'Something went wrong')));
+    });
+  }, isOnline: true);
 
-      expect(repository.fetchPhotos(1), throwsException);
+  runTestOnline(() {
+    test(
+        'should return NoInternetFailure when fetching photos without internet connection',
+        () async {
+      // arrange
+      when(mockDataSource.fetchPhotos(any))
+          .thenAnswer((_) async => <PhotoModel>[]);
+
+      // act
+      final result = await repository.fetchPhotos(1);
+
+      // assert
+      verifyNever(mockDataSource.fetchPhotos(any));
+      expect(result, Left(NoInternetFailure()));
     });
   }, isOnline: false);
 }
