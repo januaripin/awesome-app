@@ -34,7 +34,7 @@ void main() {
   }
 
   runTestOnline(() {
-    test('should return List Photo when fetching photos', () async {
+    test('should success when fetching photos', () async {
       // arrange
       when(mockDataSource.fetchPhotos(any))
           .thenAnswer((_) async => <PhotoModel>[]);

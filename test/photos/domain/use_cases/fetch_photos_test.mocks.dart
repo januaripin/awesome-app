@@ -2,11 +2,13 @@
 // in awesome_app/test/photos/domain/use_cases/fetch_photos_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
-import 'package:awesome_app/photos/domain/entities/photo.dart' as _i4;
+import 'package:awesome_app/photos/domain/entities/photo.dart' as _i6;
 import 'package:awesome_app/photos/domain/repositories/photos_repository.dart'
-    as _i2;
+    as _i3;
+import 'package:core/core.dart' as _i5;
+import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -18,19 +20,22 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
+class _FakeEither_0<L, R> extends _i1.Fake implements _i2.Either<L, R> {}
+
 /// A class which mocks [PhotosRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPhotosRepository extends _i1.Mock implements _i2.PhotosRepository {
+class MockPhotosRepository extends _i1.Mock implements _i3.PhotosRepository {
   MockPhotosRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<List<_i4.Photo>> fetchPhotos(int? page) =>
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Photo>>> fetchPhotos(int? page) =>
       (super.noSuchMethod(Invocation.method(#fetchPhotos, [page]),
-              returnValue: Future<List<_i4.Photo>>.value(<_i4.Photo>[]))
-          as _i3.Future<List<_i4.Photo>>);
+          returnValue: Future<_i2.Either<_i5.Failure, List<_i6.Photo>>>.value(
+              _FakeEither_0<_i5.Failure, List<_i6.Photo>>())) as _i4
+          .Future<_i2.Either<_i5.Failure, List<_i6.Photo>>>);
   @override
   String toString() => super.toString();
 }
