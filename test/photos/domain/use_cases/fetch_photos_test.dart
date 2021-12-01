@@ -1,8 +1,8 @@
 import 'package:awesome_app/photos/domain/entities/photo.dart';
-import 'package:awesome_app/photos/domain/entities/photo_src.dart';
 import 'package:awesome_app/photos/domain/repositories/photos_repository.dart';
 import 'package:awesome_app/photos/domain/use_cases/fetch_photos.dart';
-import 'package:core/exceptions.dart';
+import 'package:core/core.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -11,38 +11,37 @@ import 'fetch_photos_test.mocks.dart';
 
 @GenerateMocks([PhotosRepository])
 void main() {
-  final mockRepository = MockPhotosRepository();
+  late MockPhotosRepository mockRepository;
+  late FetchPhotos useCase;
 
-  test('fetch photos use case', () async {
-    final useCase = FetchPhotos(mockRepository);
-    final photos = <Photo>[];
-
-    for (var i = 1; i <= 15; i++) {
-      photos.add(
-        Photo(
-          id: i,
-          width: 720,
-          height: 600,
-          photographerId: i,
-          photographer: 'Photographer $i',
-          src: const PhotoSrc(),
-        ),
-      );
-    }
-
-    when(mockRepository.fetchPhotos(1)).thenAnswer((_) async => photos);
-
-    final result = await useCase.call(1);
-
-    expect(result.first.id, photos.first.id);
-    expect(result.last.id, photos.last.id);
+  setUp(() {
+    mockRepository = MockPhotosRepository();
+    useCase = FetchPhotos(mockRepository);
   });
 
-  test('should throw exception', () async {
-    final useCase = FetchPhotos(mockRepository);
-    when(mockRepository.fetchPhotos(1))
-        .thenAnswer((_) async => throw NoConnectionException());
+  test('should success when fetching photos', () async {
+    // arrange
+    when(mockRepository.fetchPhotos(any))
+        .thenAnswer((_) async => Right(<Photo>[]));
 
-    expect(useCase.call(1), throwsException);
+    // act
+    final result = await useCase.call(1);
+
+    // assert
+    expect(result, isA<Right<Failure, List<Photo>>>());
+    verify(mockRepository.fetchPhotos(any));
+  });
+
+  test('should failure when fetching photos', () async {
+    // arrange
+    when(mockRepository.fetchPhotos(any))
+        .thenAnswer((_) async => Left(NoInternetFailure()));
+
+    // act
+    final result = await useCase.call(1);
+
+    // assert
+    verify(mockRepository.fetchPhotos(any));
+    expect(result, isA<Left<Failure, List<Photo>>>());
   });
 }

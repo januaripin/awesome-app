@@ -20,9 +20,6 @@ void main() {
 
     const photo = Photo(
       id: 1,
-      width: 100,
-      height: 100,
-      photographerId: 1,
       photographer: 'Photographer1',
       src: PhotoSrc(),
     );

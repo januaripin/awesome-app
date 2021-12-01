@@ -40,20 +40,16 @@ class PhotosController extends GetxController with ScrollMixin {
     isLoading.value = _page == 1 && !_isRefresh;
     isLoadingMore.value = _page > 1;
 
-    await Get.find<FetchPhotos>().call(_page).then((value) {
-      if (_page > 1 && value.isEmpty) {
-        _page--;
-      } else {
-        photos.addAll(value);
-      }
-    }).catchError((e) {
-      if (e is ServerException) {
-        errorMessage.value = e.message;
-      } else if (e is NoConnectionException) {
-        errorMessage.value = e.message;
-      } else {
-        errorMessage.value = e.toString();
-      }
+    final result = await Get.find<FetchPhotos>().call(_page);
+
+    result.fold((l) {
+      errorMessage.value = l.message ?? 'Unknown error';
+    }, (r) {
+        if (_page > 1 && r.isEmpty) {
+          _page--;
+        } else {
+          photos.addAll(r);
+        }
     });
 
     isLoading.value = false;

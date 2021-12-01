@@ -41,9 +41,6 @@ void main() {
       photos.add(
         Photo(
           id: i,
-          width: 720,
-          height: 600,
-          photographerId: i,
           photographer: 'Photographer $i',
           src: const PhotoSrc(),
         ),
