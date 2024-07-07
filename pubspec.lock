@@ -38,7 +38,7 @@ packages:
     description:
       path: "."
       ref: upgrade-flutter
-      resolved-ref: "68ab9c1aa479ba1faad4eef7617be5234895cb35"
+      resolved-ref: "4f705b9189aff3426478a90ad597217119b3493f"
       url: "https://github.com/januaripin/awesome-app-details.git"
     source: git
     version: "1.0.0+1"
@@ -214,8 +214,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: upgrade-flutter
-      resolved-ref: "58bdf073d759eb998aa6f8f89edd9997ebca00ed"
+      ref: master
+      resolved-ref: "3101ce4c7abd4ce71d32f5df1bf8faa35cc1cbb5"
       url: "https://github.com/januaripin/awesome-app-core.git"
     source: git
     version: "0.0.2"
