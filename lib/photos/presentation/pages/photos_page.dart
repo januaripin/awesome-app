@@ -127,19 +127,18 @@ class PhotosPage extends StatelessWidget {
         ),
       );
 
-  SliverStaggeredGrid get _buildGridLayout => SliverStaggeredGrid.countBuilder(
+  SliverMasonryGrid get _buildGridLayout => SliverMasonryGrid.count(
         crossAxisCount: 2,
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
-        staggeredTileBuilder: (index) => const StaggeredTile.fit(1),
         itemBuilder: (context, index) {
           if (index == _photosController.photos.length - 3) {
-            WidgetsBinding.instance?.addPostFrameCallback((_) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
               _photosController.nextPage();
             });
           }
           return PhotoItem(photo: _photosController.photos[index]);
         },
-        itemCount: _photosController.photos.length,
+        childCount: _photosController.photos.length,
       );
 }
