@@ -1,7 +1,5 @@
-import 'package:awesome_app/photos/presentation/controllers/icon_controller.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class AppBarIconButton extends StatelessWidget {
   const AppBarIconButton({
